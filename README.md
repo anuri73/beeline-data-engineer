@@ -56,7 +56,8 @@ id_film=32
       356,
       148
    ]
-}```
+}
+```
 
 # Solution
 Run the following command from sbt console to get `Book task`:
