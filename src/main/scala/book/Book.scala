@@ -19,7 +19,7 @@ object Book {
 
       import spark.implicits._
 
-      var books = spark.read
+      val books = spark.read
         .option("header", true)
         .option("inferSchema", true)
         .csv("src/main/resources/books.csv")
