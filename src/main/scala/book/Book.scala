@@ -17,35 +17,24 @@ object Book {
 
     try {
 
-      import spark.implicits._
-
-      val books = spark.read
-        .option("header", true)
-        .option("inferSchema", true)
-        .csv("src/main/resources/books.csv")
-
-      val dataFrameSchema = books.schema
-
-      println(Console.GREEN + s"Schema: {$dataFrameSchema}" + Console.RESET)
-
-      val totalAmount = books.count()
+      val bookAnalyzer: BookAnalyzer = new BookAnalyzer(spark)
 
       println(
-        Console.RED + s"Total amount is: $totalAmount." + Console.RESET
+        Console.GREEN + s"Schema: ${bookAnalyzer.bookSchema}" + Console.RESET
       )
 
-      val highRatingBooks = books.filter("average_rating >= 4.5")
-
-      val highRatingBooksCount = highRatingBooks.count()
-
       println(
-        Console.YELLOW + s"Total amount of high rating books is: $highRatingBooksCount." + Console.RESET
+        Console.RED + s"Total amount is: ${bookAnalyzer.totalAmount()}." + Console.RESET
       )
 
-      val averageRating = books.select(mean("average_rating")).collect()(0)(0)
+      println(
+        Console.YELLOW
+          + s"Total amount of high rating books is: ${bookAnalyzer.highRatingBooksAmount()}."
+          + Console.RESET
+      )
 
       println(
-        Console.BLUE + s"Average book rating is: $averageRating." + Console.RESET
+        Console.BLUE + s"Average book rating is: ${bookAnalyzer.averageRating()}." + Console.RESET
       )
 
     } finally {

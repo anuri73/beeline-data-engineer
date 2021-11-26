@@ -1,11 +1,11 @@
 package movie
 
-import org.apache.spark.sql.types.Decimal
 import org.apache.spark.sql.SparkSession
 import org.apache.spark.sql.functions._
 import java.io.File
 import java.io.BufferedWriter
 import java.io.FileWriter
+import book.MovieAnalyzer
 
 object Movie {
 
@@ -22,36 +22,11 @@ object Movie {
 
     try {
 
-      import spark.implicits._
-
-      var movies = spark.read
-        .option("inferSchema", true)
-        .textFile("src/main/resources/ml-100k/u.data")
-
-      val ratings = movies
-        .map(row => row.split("\t"))
-        .map(row => (row(1).toInt, row(2).toInt))
-
-      val toyStory = ratings
-        .filter(row => row._1 == toyStoryId)
-        .groupByKey(_._2)
-        .count()
-        .collect()
-        .toSeq
-        .sortBy(_._1)
-        .map(_._2)
-
-      val all = ratings
-        .groupByKey(_._2)
-        .count()
-        .collect()
-        .toSeq
-        .sortBy(_._1)
-        .map(_._2)
+      val movieAnalyzer = new MovieAnalyzer(spark)
 
       val json = ujson.Obj(
-        "Toy Story" -> toyStory,
-        "hist_all" -> all
+        "Toy Story" -> movieAnalyzer.movieRatingAmounts(toyStoryId),
+        "hist_all" -> movieAnalyzer.ratingAmounts
       )
 
       writeFile("src/main/resources/result.json", json.toString())

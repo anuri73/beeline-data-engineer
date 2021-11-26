@@ -22,7 +22,6 @@ My realization of beeline data engineer sample task
 
 ## MovieLens
 
-## Задача
 Написать spark приложение, которое в локальном режиме выполняет следующее:
 По имеющимся данным о рейтингах фильмов (MovieLens: 100 000 рейтингов) посчитать агрегированную статистику по ним.
 
@@ -65,11 +64,16 @@ Run the following command from sbt console to get `Book task`:
 runMain book.Book
 ```
 
+And you will see result in console output
+
+
 Run the following command from sbt console to get `Movie task`:
 
 ```bash
 runMain movie.Movie
 ```
+
+and you will see genereted json file in `resources/ml100-k` directory
 
 # Specifion:
 
@@ -83,3 +87,8 @@ runMain movie.Movie
 | OpenJDK Runtime Environment | 11.0.7+10-post-Ubuntu-2ubuntu219.10 |
 | IDE | Visual Studio Code |
 | Spark | 3.1.2 |
+
+# Notes
+ - All tests have passed
+ - Most of the time was spent to setup Spark on Windows, but due to limited of time resource it was decided to move project development to Linux system
+ - This project will be updated continiously
