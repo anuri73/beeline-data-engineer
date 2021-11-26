@@ -76,7 +76,7 @@ runMain movie.Movie
 
 and you will see genereted json file in `resources/ml100-k` directory
 
-# Specifion:
+# Environment:
 
 | App | Value |
 | --- | ----------- |
